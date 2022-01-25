@@ -8,9 +8,6 @@ from fractions import Fraction
 
 version = "0.2"
 
-
-# https://mega.nz/aff=2-GnMfDZGJo
-
 # pyinstaller
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -58,7 +55,7 @@ canvas_x = canvas1.winfo_width()
 canvas_y = canvas1.winfo_height()
 selected_calculator = tk.StringVar()
 calculator_cb = ttk.Combobox(win, textvariable=selected_calculator)
-calculator_cb['values'] = ('3x3 Matice', '4x4 Matice')
+calculator_cb['values'] = ('3x3 Matice', '4x4 Matice', 'Polia')
 calculator_cb['state'] = 'readonly'
 make_combobox()
 
@@ -72,6 +69,10 @@ def make_window(event):
             matice3X3()
             return
         case '4x4 Matice':
+            canvas1.delete("all")
+            make_combobox()
+            return
+        case 'Polia':
             canvas1.delete("all")
             make_combobox()
             return
@@ -155,12 +156,24 @@ class matice3X3:
         self.var9 = tk.StringVar()
         self.output9 = tk.Label(win, textvariable=self.var9)
         canvas1.create_window(canvas_x + 700, canvas_y + 200, window=self.output9)
+        self.hodnost = tk.StringVar()
+        self.outputHodnost = tk.Label(win, textvariable=self.hodnost)
+        canvas1.create_window(canvas_x + 620, canvas_y + 50, window=self.outputHodnost)
+
 
         # text box postupu
-
+        self.tb = tk.Text(win, height=12, width=25)
+        canvas1.create_window(canvas_x + 670, canvas_y + 335, window=self.tb)
+        ''' Pripravené do budúcna ak bude treba / nefunkčné zatial
+        self.sb = ttk.Scrollbar(win, orient=tk.VERTICAL, command=tk.Text.yview)
+        self.tb.configure(yscrollcommand=self.sb.set)
+        canvas1.create_window(canvas_x + 780, canvas_y + 260, window=self.sb)
+        '''
 
         # uloží matice
         def daj_matice():
+            self.tb.delete(1.0, tk.END)
+            self.hodnost.set("")
             # deklaracia prvej matice
             try:
                 try:
@@ -362,6 +375,27 @@ class matice3X3:
         def daj_trojuholnik_prvej():
             daj_matice()
             try:
+                self.tb.insert(tk.END, Fraction(self.arr1[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr1[0, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr1[0, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, Fraction((0 - self.arr1[1, 0]) / self.arr1[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(self.arr1[1, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr1[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr1[1, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    <")
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(self.arr1[2, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr1[2, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr1[2, 2]).limit_denominator())
+                self.tb.insert(tk.END, "\n\n")
                 # 1. krok
                 x1 = self.arr1[0, 0] * ((0 - self.arr1[1, 0]) / self.arr1[0, 0])
                 x2 = self.arr1[0, 1] * ((0 - self.arr1[1, 0]) / self.arr1[0, 0])
@@ -378,6 +412,28 @@ class matice3X3:
                                    [Fraction(self.arr1[2, 0]).limit_denominator(),
                                     Fraction(self.arr1[2, 1]).limit_denominator(),
                                     Fraction(self.arr1[2, 2]).limit_denominator()]])
+                self.tb.insert(tk.END, Fraction(m_arr1[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[0, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[0, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, Fraction((0 - self.arr1[2, 0]) / self.arr1[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr1[1, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[1, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr1[2, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[2, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[2, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    <")
+                self.tb.insert(tk.END, "\n\n")
                 # 2. krok
                 x1 = self.arr1[0, 0] * ((0 - self.arr1[2, 0]) / self.arr1[0, 0])
                 x2 = self.arr1[0, 1] * ((0 - self.arr1[2, 0]) / self.arr1[0, 0])
@@ -394,6 +450,144 @@ class matice3X3:
                                    [Fraction(v1).limit_denominator(),
                                     Fraction(v2).limit_denominator(),
                                     Fraction(v3).limit_denominator()]])
+                self.tb.insert(tk.END, Fraction(m_arr2[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[0, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[0, 2]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr2[1, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[1, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, Fraction((0 - m_arr2[2, 1]) / m_arr2[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr2[2, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[2, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[2, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    <")
+                # 3. krok
+                x1 = m_arr2[1, 0] * ((0 - m_arr2[2, 1]) / m_arr2[1, 1])
+                x2 = m_arr2[1, 1] * ((0 - m_arr2[2, 1]) / m_arr2[1, 1])
+                x3 = m_arr2[1, 2] * ((0 - m_arr2[2, 1]) / m_arr2[1, 1])
+                v1 = m_arr2[2, 0] + x1
+                v2 = m_arr2[2, 1] + x2
+                v3 = m_arr2[2, 2] + x3
+                m_arr3 = np.array([[Fraction(m_arr2[0, 0]).limit_denominator(),
+                                    Fraction(m_arr2[0, 1]).limit_denominator(),
+                                    Fraction(m_arr2[0, 2]).limit_denominator()],
+                                   [Fraction(m_arr2[1, 0]).limit_denominator(),
+                                    Fraction(m_arr2[1, 1]).limit_denominator(),
+                                    Fraction(m_arr2[1, 2]).limit_denominator()],
+                                   [Fraction(v1).limit_denominator(),
+                                    Fraction(v2).limit_denominator(),
+                                    Fraction(v3).limit_denominator()]])
+                vysledok(m_arr3)
+            except:
+                error_dialog("Chyba pri počítaní hodnosti matice.")
+
+        def daj_trojuholnik_druhej():
+            daj_matice()
+            try:
+                self.tb.insert(tk.END, Fraction(self.arr2[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr2[0, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr2[0, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, Fraction((0 - self.arr2[1, 0]) / self.arr2[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(self.arr2[1, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr2[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr2[1, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    <")
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(self.arr2[2, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr2[2, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(self.arr2[2, 2]).limit_denominator())
+                self.tb.insert(tk.END, "\n\n")
+                # 1. krok
+                x1 = self.arr2[0, 0] * ((0 - self.arr2[1, 0]) / self.arr2[0, 0])
+                x2 = self.arr2[0, 1] * ((0 - self.arr2[1, 0]) / self.arr2[0, 0])
+                x3 = self.arr2[0, 2] * ((0 - self.arr2[1, 0]) / self.arr2[0, 0])
+                v1 = self.arr2[1, 0] + x1
+                v2 = self.arr2[1, 1] + x2
+                v3 = self.arr2[1, 2] + x3
+                m_arr1 = np.array([[Fraction(self.arr2[0, 0]).limit_denominator(),
+                                    Fraction(self.arr2[0, 1]).limit_denominator(),
+                                    Fraction(self.arr2[0, 2]).limit_denominator()],
+                                   [Fraction(v1).limit_denominator(),
+                                    Fraction(v2).limit_denominator(),
+                                    Fraction(v3).limit_denominator()],
+                                   [Fraction(self.arr2[2, 0]).limit_denominator(),
+                                    Fraction(self.arr2[2, 1]).limit_denominator(),
+                                    Fraction(self.arr2[2, 2]).limit_denominator()]])
+                self.tb.insert(tk.END, Fraction(m_arr1[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[0, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[0, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, Fraction((0 - self.arr2[2, 0]) / self.arr2[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr1[1, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[1, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr1[2, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[2, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr1[2, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    <")
+                self.tb.insert(tk.END, "\n\n")
+                # 2. krok
+                x1 = self.arr2[0, 0] * ((0 - self.arr2[2, 0]) / self.arr2[0, 0])
+                x2 = self.arr2[0, 1] * ((0 - self.arr2[2, 0]) / self.arr2[0, 0])
+                x3 = self.arr2[0, 2] * ((0 - self.arr2[2, 0]) / self.arr2[0, 0])
+                v1 = self.arr2[2, 0] + x1
+                v2 = self.arr2[2, 1] + x2
+                v3 = self.arr2[2, 2] + x3
+                m_arr2 = np.array([[Fraction(m_arr1[0, 0]).limit_denominator(),
+                                    Fraction(m_arr1[0, 1]).limit_denominator(),
+                                    Fraction(m_arr1[0, 2]).limit_denominator()],
+                                   [Fraction(m_arr1[1, 0]).limit_denominator(),
+                                    Fraction(m_arr1[1, 1]).limit_denominator(),
+                                    Fraction(m_arr1[1, 2]).limit_denominator()],
+                                   [Fraction(v1).limit_denominator(),
+                                    Fraction(v2).limit_denominator(),
+                                    Fraction(v3).limit_denominator()]])
+                self.tb.insert(tk.END, Fraction(m_arr2[0, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[0, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[0, 2]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr2[1, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[1, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    | ")
+                self.tb.insert(tk.END, Fraction((0 - m_arr2[2, 1]) / m_arr2[1, 1]).limit_denominator())
+                self.tb.insert(tk.END, "\n")
+                self.tb.insert(tk.END, Fraction(m_arr2[2, 0]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[2, 1]).limit_denominator())
+                self.tb.insert(tk.END, " ")
+                self.tb.insert(tk.END, Fraction(m_arr2[2, 2]).limit_denominator())
+                self.tb.insert(tk.END, "    <")
                 # 3. krok
                 x1 = m_arr2[1, 0] * ((0 - m_arr2[2, 1]) / m_arr2[1, 1])
                 x2 = m_arr2[1, 1] * ((0 - m_arr2[2, 1]) / m_arr2[1, 1])
@@ -417,6 +611,27 @@ class matice3X3:
         # hodnost matice
         def daj_hodnost_prvej():
             daj_trojuholnik_prvej()
+            x = 0
+            if self.var1.get() != "0" or self.var2.get() != "0" or self.var3.get() != "0":
+                x = x + 1
+            if self.var4.get() != "0" or self.var5.get() != "0" or self.var6.get() != "0":
+                x = x + 1
+            if self.var7.get() != "0" or self.var8.get() != "0" or self.var9.get() != "0":
+                x = x + 1
+            strhodnost = "Hodnosť: {}"
+            self.hodnost.set(strhodnost.format(x))
+
+        def daj_hodnost_druhej():
+            daj_trojuholnik_druhej()
+            x = 0
+            if self.var1.get() != "0" or self.var2.get() != "0" or self.var3.get() != "0":
+                x = x + 1
+            if self.var4.get() != "0" or self.var5.get() != "0" or self.var6.get() != "0":
+                x = x + 1
+            if self.var7.get() != "0" or self.var8.get() != "0" or self.var9.get() != "0":
+                x = x + 1
+            strhodnost = "Hodnosť: {}"
+            self.hodnost.set(strhodnost.format(x))
 
         # tlačidlá
         self.button_add = tk.Button(win, text="Spočítať", command=pripocitaj)
@@ -433,6 +648,12 @@ class matice3X3:
         canvas1.create_window(canvas_x + 425, canvas_y + 250, window=self.button_tr2)
         self.button_hod1 = tk.Button(win, text="Hodnosť", command=daj_hodnost_prvej)
         canvas1.create_window(canvas_x + 188, canvas_y + 276, window=self.button_hod1)
+        self.button_hod2 = tk.Button(win, text="Hodnosť", command=daj_hodnost_druhej)
+        canvas1.create_window(canvas_x + 438, canvas_y + 276, window=self.button_hod2)
+        self.button_tro1 = tk.Button(win, text="△ tvar", command=daj_trojuholnik_prvej)
+        canvas1.create_window(canvas_x + 195, canvas_y + 302, window=self.button_tro1)
+        self.button_tro2 = tk.Button(win, text="△ tvar", command=daj_trojuholnik_druhej)
+        canvas1.create_window(canvas_x + 445, canvas_y + 302, window=self.button_tro2)
 
     def __del__(self):
         return
