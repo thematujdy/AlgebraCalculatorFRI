@@ -156,6 +156,9 @@ class matice3X3:
         self.output9 = tk.Label(win, textvariable=self.var9)
         canvas1.create_window(canvas_x + 700, canvas_y + 200, window=self.output9)
 
+        # text box postupu
+
+
         # uloží matice
         def daj_matice():
             # deklaracia prvej matice
