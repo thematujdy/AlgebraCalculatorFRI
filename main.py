@@ -6,7 +6,7 @@ import os
 import sys
 from fractions import Fraction
 
-version = "0.2"
+version = "0.2.1"
 
 # pyinstaller
 def resource_path(relative_path):
