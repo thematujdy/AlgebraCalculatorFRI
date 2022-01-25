@@ -164,11 +164,9 @@ class matice3X3:
         # text box postupu
         self.tb = tk.Text(win, height=12, width=25)
         canvas1.create_window(canvas_x + 670, canvas_y + 335, window=self.tb)
-        ''' Pripravené do budúcna ak bude treba / nefunkčné zatial
-        self.sb = ttk.Scrollbar(win, orient=tk.VERTICAL, command=tk.Text.yview)
-        self.tb.configure(yscrollcommand=self.sb.set)
-        canvas1.create_window(canvas_x + 780, canvas_y + 260, window=self.sb)
-        '''
+        self.sb = ttk.Scrollbar(win, orient=tk.VERTICAL, command=self.tb.yview)
+        self.tb['yscroll'] = self.sb.set
+        canvas1.create_window(canvas_x + 780, canvas_y + 335, height=200, window=self.sb)
 
         # uloží matice
         def daj_matice():
