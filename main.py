@@ -8,7 +8,8 @@ from fractions import Fraction
 
 version = "0.2"
 
-#https://mega.nz/aff=2-GnMfDZGJo
+
+# https://mega.nz/aff=2-GnMfDZGJo
 
 # pyinstaller
 def resource_path(relative_path):
@@ -40,6 +41,7 @@ def convert_to_float(frac_str):
 # Error dialog
 def error_dialog(msg):
     mb.showerror("Error", msg)
+
 
 # combobox canvas
 def make_combobox():
@@ -367,12 +369,12 @@ class matice3X3:
                 m_arr1 = np.array([[Fraction(self.arr1[0, 0]).limit_denominator(),
                                     Fraction(self.arr1[0, 1]).limit_denominator(),
                                     Fraction(self.arr1[0, 2]).limit_denominator()],
-                                  [Fraction(v1).limit_denominator(),
-                                   Fraction(v2).limit_denominator(),
-                                   Fraction(v3).limit_denominator()],
-                                  [Fraction(self.arr1[2, 0]).limit_denominator(),
-                                   Fraction(self.arr1[2, 1]).limit_denominator(),
-                                   Fraction(self.arr1[2, 2]).limit_denominator()]])
+                                   [Fraction(v1).limit_denominator(),
+                                    Fraction(v2).limit_denominator(),
+                                    Fraction(v3).limit_denominator()],
+                                   [Fraction(self.arr1[2, 0]).limit_denominator(),
+                                    Fraction(self.arr1[2, 1]).limit_denominator(),
+                                    Fraction(self.arr1[2, 2]).limit_denominator()]])
                 # 2. krok
                 x1 = self.arr1[0, 0] * ((0 - self.arr1[2, 0]) / self.arr1[0, 0])
                 x2 = self.arr1[0, 1] * ((0 - self.arr1[2, 0]) / self.arr1[0, 0])
@@ -412,7 +414,6 @@ class matice3X3:
         # hodnost matice
         def daj_hodnost_prvej():
             daj_trojuholnik_prvej()
-
 
         # tlačidlá
         self.button_add = tk.Button(win, text="Spočítať", command=pripocitaj)
